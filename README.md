@@ -31,7 +31,6 @@ config/
 ├── loki/         # Log retention rules, Mimir log schema
 ├── mimir/        # Metrics retention rules, TSDB block storage config
 ├── tempo/        # OTLP / gRPC distributed tracing receiver settings
-└── nginx/        # Reverse Proxy configuration (for Internal/Gateway integration)
 ```
 
 ## 🚨 Intelligent Alert Routing (Telegram)
@@ -47,43 +46,11 @@ Before you can run the stack, you **MUST** configure the following credentials a
 
 1. **Environment Variables**:
    - Rename `.env.grafana.example` to `.env.grafana` and set your desired Grafana admin password.
-
-2. **Wait, Roadmap Implementation**:
-   - Services like **Traefik**, **Certbot (SSL)**, and **OpenClaw AI SRE** are currently in the roadmap and not part of the active `docker-compose.yml`.
+2. **Internal Gateway (Nginx)**:
+   - This stack is intended to be accessed via the Nginx reverse proxy configured in `config/nginx/`.
+   - Ensure local SSL certificates for `homelab.local` are placed in `config/nginx/certs/`.
 
 ---
-
-### 📘 Domain & Port Configuration Tutorial
-
-To ensure your services are accessible securely via HTTPS, follow these steps:
-
-#### 1. Setup DNS
-Point your subdomains (e.g., `grafana.yourdomain.com`, `openclaw.yourdomain.com`) to your server's Public IP address in your DNS provider (e.g., Cloudflare).
-
-#### 2. Configure SSL Certificates (Certbot)
-Configure the `config/certbot/letsencrypt/cloudflare.ini` file with your Cloudflare API token. Certbot will use this to perform DNS-01 challenges and generate wildcards or specific certificates.
-
-#### 3. Attach Traefik Labels in Docker Compose
-In `docker-compose.yml`, each service you want to expose needs specific labels. For example:
-```yaml
-labels:
-  - "traefik.enable=true"
-  - "traefik.http.routers.myservice.rule=Host(`myservice.yourdomain.com`)"
-  - "traefik.http.routers.myservice.entrypoints=websecure"
-  - "traefik.http.routers.myservice.tls=true"
-  - "traefik.http.services.myservice.loadbalancer.server.port=PORT_NUMBER"
-```
-*Replace `myservice` with your service name and `PORT_NUMBER` with the port the container is exposing.*
-
-#### 4. Update Dynamic TLS Config
-Ensure `config/traefik/dynamic.yml` points to the correct certificate paths:
-```yaml
-tls:
-  certificates:
-    - certFile: "/etc/letsencrypt/live/yourdomain.com/fullchain.pem"
-      keyFile: "/etc/letsencrypt/live/yourdomain.com/privkey.pem"
-```
-*Traefik will monitor this file and reload certificates automatically.*
 
 ## ⚙️ Quick Start Guide
 
@@ -94,21 +61,10 @@ Once the pre-run requirements above are completed, you can build and launch the 
    docker compose up -d
    ```
 2. Verify service availability:
-   - Access Grafana locally or via your gateway (e.g., `http://localhost:3000`).
+   - Access Grafana locally at `http://localhost:3000` or via the gateway.
 3. Connect your other nodes (Application VM & Database VM) using the **Grafana Alloy** Ansible agents so metrics begin flowing into your new LGTM server.
 
 ---
 
-## 🚀 Roadmap & Planned Services
-The following services are planned for future integration to enhance the observability ecosystem:
-- **OpenClaw (AI SRE)**: Autonomous AI agent for incident response and Grafana Lens integration.
-- **Traefik & Certbot**: Centralized HTTPS ingress and automated SSL Certificate management.
-- **Blackbox Exporter**: Integrated Uptime and HTTP Health checks.
-
----
-
-## 🤖 AI Agent Integration
-This project is built and maintained with the help of the **Antigravity (Gemini)** AI Agent. The agent assists in:
-- **Code Generation**: Automating the creation of Ansible playbooks and Docker configurations.
-- **Observability Setup**: Configuring Loki, Mimir, and Tempo for optimal performance.
-- **Troubleshooting**: Proactive debugging of stack failures and log analysis.
+## ⚖️ License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
