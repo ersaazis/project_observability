@@ -1,0 +1,110 @@
+services:
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.grafana
+    environment:
+      - TZ=Asia/Jakarta
+      - GF_SERVER_HTTP_ADDR=0.0.0.0
+      - GF_SERVER_HTTP_PORT=3000
+      - GF_LOG_LEVEL=info
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/general/HOME.json
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-lokiexplore-app,grafana-pyroscope-app,grafana-exploretraces-app,grafana-metricsdrilldown-app,grafana-lokiexplore-datasource
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - loki
+      - mimir
+      - tempo
+      - pyroscope
+    restart: unless-stopped
+    networks:
+      - internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    command: -config.file=/etc/loki/config.yaml
+    ports:
+      - "3100:3100"
+    expose:
+      - "3100"
+    volumes:
+      - ./config/loki/loki-config.yaml:/etc/loki/config.yaml:ro
+      - loki-data:/loki
+    restart: unless-stopped
+    networks:
+      - internal
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo/config.yaml" ]
+    expose:
+      - "3200"
+      - "4317"
+      - "4318"
+    ports:
+      - "4318:4318"
+    volumes:
+      - ./config/tempo/tempo-config.yaml:/etc/tempo/config.yaml:ro
+      - tempo-data:/var/tempo
+    restart: unless-stopped
+    networks:
+      - internal
+
+  mimir:
+    image: grafana/mimir:latest
+    container_name: mimir
+    command: [ "-config.file=/etc/mimir/config.yaml" ]
+    expose:
+      - "9009"
+    ports:
+      - "9009:9009"
+    volumes:
+      - ./config/mimir/mimir-config.yaml:/etc/mimir/config.yaml:ro
+      - mimir-chunks:/data/mimir/chunks
+      - mimir-tsdb:/data/mimir/tsdb
+      - mimir-compactor:/data/mimir/compactor
+    restart: unless-stopped
+    networks:
+      - internal
+
+  pyroscope:
+    image: grafana/pyroscope:latest
+    container_name: pyroscope
+    volumes:
+      - pyroscope-data:/var/lib/pyroscope
+    expose:
+      - "4040"
+    ports:
+      - "4040:4040"
+    restart: unless-stopped
+    networks:
+      - internal
+
+volumes:
+  loki-data:
+    driver: local
+  tempo-data:
+    driver: local
+  mimir-chunks:
+    driver: local
+  mimir-tsdb:
+    driver: local
+  mimir-compactor:
+    driver: local
+  pyroscope-data:
+    driver: local
+  grafana-data:
+
+
+networks:
+  internal:
+    driver: bridge

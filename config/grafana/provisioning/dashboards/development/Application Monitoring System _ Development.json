@@ -1,0 +1,466 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 92,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "tempo"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "actions": [],
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Trace ID"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": []
+              },
+              {
+                "id": "custom.width",
+                "value": 300
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text",
+                  "wrapText": false
+                }
+              },
+              {
+                "id": "custom.inspect",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "filters": [
+            {
+              "id": "ebf6259c",
+              "isCustomValue": false,
+              "operator": "=",
+              "scope": "span",
+              "value": [],
+              "valueType": "string"
+            },
+            {
+              "id": "service-name",
+              "isCustomValue": false,
+              "operator": "=",
+              "scope": "resource",
+              "tag": "service.name",
+              "value": [
+                "$service"
+              ],
+              "valueType": "string"
+            },
+            {
+              "id": "span-name",
+              "isCustomValue": true,
+              "operator": "=~",
+              "scope": "span",
+              "tag": "name",
+              "value": [
+                "\"$name\""
+              ]
+            },
+            {
+              "id": "status",
+              "isCustomValue": false,
+              "operator": "=",
+              "scope": "intrinsic",
+              "tag": "status",
+              "value": "$status",
+              "valueType": "keyword"
+            },
+            {
+              "id": "duration-type",
+              "value": "span"
+            },
+            {
+              "id": "min-duration",
+              "operator": ">",
+              "tag": "duration",
+              "value": "$duration_min",
+              "valueType": "duration"
+            }
+          ],
+          "limit": 50,
+          "metricsQueryType": "range",
+          "query": "{resource.service.name=~\"$service\" && name=~\"$name\" && status=$status && duration>$duration_min}  ",
+          "queryType": "traceql",
+          "refId": "A",
+          "spss": 50,
+          "tableType": "traces"
+        }
+      ],
+      "title": "Trace List",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {}
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "tempo"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 2,
+      "options": {
+        "spanFilters": {
+          "criticalPathOnly": false,
+          "matchesOnly": false,
+          "serviceNameOperator": "=",
+          "spanNameOperator": "=",
+          "tags": [
+            {
+              "id": "b8940acf-5c5",
+              "operator": "="
+            }
+          ]
+        }
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "filters": [
+            {
+              "id": "e83d8a43",
+              "operator": "=",
+              "scope": "span"
+            }
+          ],
+          "limit": 100,
+          "metricsQueryType": "instant",
+          "query": "$trace_id",
+          "queryType": "traceql",
+          "refId": "A",
+          "spss": 100,
+          "tableType": "traces"
+        }
+      ],
+      "title": "Trace Detail",
+      "type": "traces"
+    },
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "tempo"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "id": 3,
+      "options": {
+        "edges": {},
+        "layoutAlgorithm": "layered",
+        "nodes": {},
+        "zoomMode": "cooperative"
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "filters": [
+            {
+              "id": "e83d8a43",
+              "operator": "=",
+              "scope": "span"
+            }
+          ],
+          "limit": 100,
+          "metricsQueryType": "range",
+          "query": "$trace_id",
+          "queryType": "traceql",
+          "refId": "A",
+          "spss": 100,
+          "tableType": "traces"
+        }
+      ],
+      "title": "Trace Detail",
+      "type": "nodeGraph"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 4,
+      "options": {
+        "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{exporter=\"OTLP\", env=~\"$env\"} | json | __error__=`` | resources_service_name =~ `$service` | traceid =~ `$trace_id` | line_format `Resource {{.resources_service_name}} Level {{.level}} Runtime {{.resources_process_runtime_name}} Trace ID {{.traceid}} Span ID {{.spanid}}`",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Trace Detail",
+      "type": "logs"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 41,
+  "tags": [
+    "metrics"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "definition": "label_values(traces_service_graph_request_total{env=~\"$env\"},server)",
+        "includeAll": true,
+        "label": "Service",
+        "name": "service",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(traces_service_graph_request_total{env=~\"$env\"},server)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": ".*_dev",
+        "type": "query"
+      },
+      {
+        "allowCustomValue": true,
+        "current": {
+          "text": ".*",
+          "value": ".*"
+        },
+        "label": "Name",
+        "name": "name",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": ".*"
+          }
+        ],
+        "query": "All : .*",
+        "type": "custom"
+      },
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "unset",
+          "value": "unset"
+        },
+        "label": "Status",
+        "name": "status",
+        "options": [
+          {
+            "selected": false,
+            "text": "error",
+            "value": "error"
+          },
+          {
+            "selected": true,
+            "text": "unset",
+            "value": "unset"
+          },
+          {
+            "selected": false,
+            "text": "ok",
+            "value": "ok"
+          }
+        ],
+        "query": "error,unset,ok",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "text": "0ms",
+          "value": "0ms"
+        },
+        "label": "Duration >",
+        "name": "duration_min",
+        "options": [
+          {
+            "selected": true,
+            "text": "0ms",
+            "value": "0ms"
+          }
+        ],
+        "query": "0ms",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "label": "Trace ID",
+        "name": "trace_id",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "development|general",
+          "value": "development|general"
+        },
+        "hide": 2,
+        "name": "env",
+        "query": "development|general",
+        "skipUrlSync": true,
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Application Monitoring System | Development",
+  "uid": "596dc5e8-150d-42e6-9f62-3a7bce2311002",
+  "version": 13
+}

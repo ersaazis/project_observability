@@ -1,0 +1,201 @@
+groups:
+  - name: server_alerts_staging
+    rules:
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes{env="staging"} - node_memory_MemAvailable_bytes{env="staging"}) / node_memory_MemTotal_bytes{env="staging"} * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          domain: server
+          env: staging
+        annotations:
+          summary: "High Memory Usage: {{ $labels.instance }}"
+          description: "RAM usage is over 85% for 5 minutes. (Current value: {{ printf \"%.2f\" $value }}%)"
+
+      - alert: HighDiskUsage
+        expr: (node_filesystem_avail_bytes{env="staging", fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"} / node_filesystem_size_bytes{env="staging", fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"}) * 100 < 15
+        for: 5m
+        labels:
+          severity: critical
+          domain: server
+          env: staging
+        annotations:
+          summary: "Disk Space Almost Full: {{ $labels.instance }}"
+          description: "Disk space is below 15%."
+
+      - alert: HighDiskIOWait
+        expr: rate(node_cpu_seconds_total{env="staging", mode="iowait"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          domain: server
+          env: staging
+        annotations:
+          summary: "High Disk IO Wait: {{ $labels.instance }}"
+          description: "Disk I/O wait is high."
+
+      - alert: HighSystemLoad
+        expr: node_load1{env="staging"} > count without (cpu, mode) (node_cpu_seconds_total{env="staging", mode="idle"})
+        for: 5m
+        labels:
+          severity: warning
+          domain: server
+          env: staging
+        annotations:
+          summary: "High System Load: {{ $labels.instance }}"
+          description: "CPU Load exceeds the number of cores."
+
+      - alert: NetworkErrors
+        expr: rate(node_network_receive_drop_total{env="staging"}[5m]) > 0 or rate(node_network_transmit_drop_total{env="staging"}[5m]) > 0 or rate(node_network_receive_errs_total{env="staging"}[5m]) > 0 or rate(node_network_transmit_errs_total{env="staging"}[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          domain: server
+          env: staging
+        annotations:
+          summary: "Network Errors Detected: {{ $labels.instance }}"
+          description: "Network interfaces are dropping packets or reporting errors."
+
+      - alert: HostDown
+        expr: up{env="staging", job="integrations/node_exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          domain: server
+          env: staging
+        annotations:
+          summary: "Host Down: {{ $labels.instance }}"
+          description: "Node exporter down for 2 minutes."
+
+      - alert: OOMKills
+        expr: increase(container_oom_events_total{env="staging"}[5m]) > 0
+        labels:
+          severity: critical
+          domain: server
+          env: staging
+        annotations:
+          summary: "OOM Kill Detected on {{ $labels.instance }}"
+          description: "A container was killed due to Out Of Memory."
+
+  - name: application_alerts_staging
+    rules:
+      - alert: BlackboxUptimeDown
+        expr: probe_success{env="staging"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          domain: application
+          env: staging
+        annotations:
+          summary: "Endpoint Unreachable: {{ $labels.instance }}"
+          description: "Blackbox prober failed to reach the endpoint."
+
+      - alert: NginxError500
+        expr: sum(rate(nginx_http_requests_total{env="staging", status=~"5.."}[5m])) / sum(rate(nginx_http_requests_total{env="staging"}[5m])) * 100 > 5
+        for: 5m
+        labels:
+          severity: critical
+          domain: application
+          env: staging
+        annotations:
+          summary: "High Nginx 5xx Error Rate"
+          description: "More than 5% of requests returned 5xx status codes."
+
+      - alert: TracingError500
+        expr: sum(rate(traces_spanmetrics_calls_total{env="staging", status_code="STATUS_CODE_ERROR"}[5m])) / sum(rate(traces_spanmetrics_calls_total{env="staging"}[5m])) * 100 > 5
+        for: 5m
+        labels:
+          severity: warning
+          domain: application
+          env: staging
+        annotations:
+          summary: "High Tracing Error Rate"
+          description: "More than 5% of traced requests have errors."
+
+      - alert: HighResponseTime
+        expr: probe_duration_seconds{env="staging"} > 3
+        for: 5m
+        labels:
+          severity: warning
+          domain: application
+          env: staging
+        annotations:
+          summary: "High Latency: {{ $labels.instance }}"
+          description: "Response time is above 3 seconds."
+
+      - alert: SSLCertExpiring
+        expr: probe_ssl_earliest_cert_expiry{env="staging"} - time() < 1209600
+        for: 1h
+        labels:
+          severity: warning
+          domain: application
+          env: staging
+        annotations:
+          summary: "SSL Cert Expiring Soon: {{ $labels.instance }}"
+          description: "SSL certificate expires in less than 14 days."
+
+      - alert: AppContainerDown
+        expr: time() - container_last_seen{env="staging", name=~".*traefik.*|.*app.*"} > 60
+        labels:
+          severity: critical
+          domain: application
+          env: staging
+        annotations:
+          summary: "App/Traefik Container Down"
+          description: "Container has not been seen for more than 60 seconds."
+
+  - name: database_alerts_staging
+    rules:
+      - alert: DBConnectionDrop
+        expr: abs(deriv(pg_stat_activity_count{env="staging"}[5m])) > 50
+        for: 5m
+        labels:
+          severity: warning
+          domain: database
+          env: staging
+        annotations:
+          summary: "Sudden DB Connections Spike/Drop"
+          description: "Active connections dropped or spiked drastically."
+
+      - alert: DBDown
+        expr: up{env="staging", job=~".*postgres.*|.*mysql.*"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          domain: database
+          env: staging
+        annotations:
+          summary: "Database Down"
+          description: "Database exporter cannot connect or is down."
+
+      - alert: HighQueryLatency
+        expr: rate(pg_stat_database_blks_read{env="staging"}[5m]) > 1000
+        for: 5m
+        labels:
+          severity: warning
+          domain: database
+          env: staging
+        annotations:
+          summary: "High DB Query Latency"
+          description: "Average query latency is unusually high."
+
+      - alert: DeadlocksDetected
+        expr: increase(pg_stat_database_deadlocks{env="staging"}[5m]) > 0
+        labels:
+          severity: critical
+          domain: database
+          env: staging
+        annotations:
+          summary: "Deadlocks Detected"
+          description: "Database deadlocks detected."
+
+      - alert: DBDiskAlmostFull
+        expr: (node_filesystem_avail_bytes{env="staging", mountpoint=~".*/data.*|.*mysql.*"} / node_filesystem_size_bytes{env="staging", mountpoint=~".*/data.*|.*mysql.*"}) * 100 < 20
+        for: 5m
+        labels:
+          severity: critical
+          domain: database
+          env: staging
+        annotations:
+          summary: "DB Disk Almost Full"
+          description: "Database disk space is below 20%."

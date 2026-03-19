@@ -1,0 +1,167 @@
+apiVersion: 1
+
+contactPoints:
+  # DEVELOPMENT
+  - orgId: 1
+    name: 'Telegram Server Development'
+    receivers:
+      - uid: telegram_server_dev
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_DEV}'
+          chatid: "-4834347031"
+  - orgId: 1
+    name: 'Telegram Application Development'
+    receivers:
+      - uid: telegram_app_dev
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_DEV}'
+          chatid: "-5266437611"
+  - orgId: 1
+    name: 'Telegram Database Development'
+    receivers:
+      - uid: telegram_db_dev
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_DEV}'
+          chatid: "-4979826346"
+
+  # STAGING
+  - orgId: 1
+    name: 'Telegram Server Staging'
+    receivers:
+      - uid: telegram_server_stg
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_STG}'
+          chatid: "-4834347031"
+  - orgId: 1
+    name: 'Telegram Application Staging'
+    receivers:
+      - uid: telegram_app_stg
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_STG}'
+          chatid: "-5266437611"
+  - orgId: 1
+    name: 'Telegram Database Staging'
+    receivers:
+      - uid: telegram_db_stg
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_STG}'
+          chatid: "-4979826346"
+          
+  # MIRROR
+  - orgId: 1
+    name: 'Telegram Server Mirror'
+    receivers:
+      - uid: telegram_server_mir
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_MIR}'
+          chatid: "-4834347031"
+  - orgId: 1
+    name: 'Telegram Application Mirror'
+    receivers:
+      - uid: telegram_app_mir
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_MIR}'
+          chatid: "-5266437611"
+  - orgId: 1
+    name: 'Telegram Database Mirror'
+    receivers:
+      - uid: telegram_db_mir
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_MIR}'
+          chatid: "-4979826346"
+
+  # PRODUCTION
+  - orgId: 1
+    name: 'Telegram Server Production'
+    receivers:
+      - uid: telegram_server_prod
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_PROD}'
+          chatid: "-4834347031"
+  - orgId: 1
+    name: 'Telegram Application Production'
+    receivers:
+      - uid: telegram_app_prod
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_PROD}'
+          chatid: "-5266437611"
+  - orgId: 1
+    name: 'Telegram Database Production'
+    receivers:
+      - uid: telegram_db_prod
+        type: telegram
+        settings:
+          bottoken: '${TELEGRAM_BOT_TOKEN_PROD}'
+          chatid: "-4979826346"
+
+policies:
+  - orgId: 1
+    receiver: 'Telegram Server Production' # Default receiver
+    group_by: ['alertname', 'domain', 'env']
+    routes:
+      # DEVELOPMENT ROUTES
+      - receiver: 'Telegram Server Development'
+        object_matchers:
+          - ['domain', '=', 'server']
+          - ['env', '=', 'development']
+      - receiver: 'Telegram Application Development'
+        object_matchers:
+          - ['domain', '=', 'application']
+          - ['env', '=', 'development']
+      - receiver: 'Telegram Database Development'
+        object_matchers:
+          - ['domain', '=', 'database']
+          - ['env', '=', 'development']
+
+      # STAGING ROUTES
+      - receiver: 'Telegram Server Staging'
+        object_matchers:
+          - ['domain', '=', 'server']
+          - ['env', '=', 'staging']
+      - receiver: 'Telegram Application Staging'
+        object_matchers:
+          - ['domain', '=', 'application']
+          - ['env', '=', 'staging']
+      - receiver: 'Telegram Database Staging'
+        object_matchers:
+          - ['domain', '=', 'database']
+          - ['env', '=', 'staging']
+          
+      # MIRROR ROUTES
+      - receiver: 'Telegram Server Mirror'
+        object_matchers:
+          - ['domain', '=', 'server']
+          - ['env', '=', 'mirror']
+      - receiver: 'Telegram Application Mirror'
+        object_matchers:
+          - ['domain', '=', 'application']
+          - ['env', '=', 'mirror']
+      - receiver: 'Telegram Database Mirror'
+        object_matchers:
+          - ['domain', '=', 'database']
+          - ['env', '=', 'mirror']
+
+      # PRODUCTION ROUTES
+      - receiver: 'Telegram Server Production'
+        object_matchers:
+          - ['domain', '=', 'server']
+          - ['env', '=', 'production']
+      - receiver: 'Telegram Application Production'
+        object_matchers:
+          - ['domain', '=', 'application']
+          - ['env', '=', 'production']
+      - receiver: 'Telegram Database Production'
+        object_matchers:
+          - ['domain', '=', 'database']
+          - ['env', '=', 'production']

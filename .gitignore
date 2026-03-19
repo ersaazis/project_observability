@@ -1,0 +1,10 @@
+# Ignore actual environment files
+*.env
+.env.*
+
+# Ignore sensitive config data
+config/nginx/certs/
+config/certbot/letsencrypt/
+
+# Common ignores
+.DS_Store

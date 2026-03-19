@@ -1,0 +1,698 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "alertInstanceLabelFilter": "env=\"production\"",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 19,
+        "showInactiveAlerts": false,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": true,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Production Alert",
+      "type": "alertlist"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 16,
+      "options": {
+        "alertInstanceLabelFilter": "env=~\"Mirror|general\"",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 19,
+        "showInactiveAlerts": false,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": true,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Mirror Alert",
+      "type": "alertlist"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 18,
+      "options": {
+        "alertInstanceLabelFilter": "env=~\"staging|general\"",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 19,
+        "showInactiveAlerts": false,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": true,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Staging Alert",
+      "type": "alertlist"
+    },
+    {
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 17,
+      "options": {
+        "alertInstanceLabelFilter": "env=~\"development|general\"",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 19,
+        "showInactiveAlerts": false,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": true,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Development Alert",
+      "type": "alertlist"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 95
+              },
+              {
+                "color": "yellow",
+                "value": 98
+              },
+              {
+                "color": "green",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 0,
+        "y": 9
+      },
+      "id": 10,
+      "maxPerRow": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg by(group) (avg_over_time(probe_success{name!=\"\", env=\"Production\"}[24h])) * 100",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Production Uptime 24h",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 95
+              },
+              {
+                "color": "yellow",
+                "value": 98
+              },
+              {
+                "color": "green",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 6,
+        "y": 9
+      },
+      "id": 12,
+      "maxPerRow": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg by(group) (avg_over_time(probe_success{name!=\"\", env=\"Mirror\"}[24h])) * 100",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Mirror Uptime 24h",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 95
+              },
+              {
+                "color": "yellow",
+                "value": 98
+              },
+              {
+                "color": "green",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 9
+      },
+      "id": 11,
+      "maxPerRow": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg by(group) (avg_over_time(probe_success{name!=\"\", env=\"Staging\"}[24h])) * 100",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Staging Uptime 24h",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 95
+              },
+              {
+                "color": "yellow",
+                "value": 98
+              },
+              {
+                "color": "green",
+                "value": 99
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 9
+      },
+      "id": 14,
+      "maxPerRow": 6,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "avg by(group) (avg_over_time(probe_success{name!=\"\", env=\"Development\"}[24h])) * 100",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Development Uptime 24h",
+      "type": "gauge"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 0,
+        "y": 16
+      },
+      "id": 2,
+      "options": {
+        "folderUID": "eezmo8sgz7mdca",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "metrics"
+        ]
+      },
+      "pluginVersion": "11.0.0",
+      "title": "Production Metrics",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 6,
+        "y": 16
+      },
+      "id": 3,
+      "options": {
+        "folderUID": "bezm4676312wwa",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "metrics"
+        ]
+      },
+      "pluginVersion": "11.0.0",
+      "title": "Mirror Metrics",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 12,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "folderUID": "dezm450vpewaoa",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "metrics"
+        ]
+      },
+      "pluginVersion": "11.0.0",
+      "title": "Staging Metrics",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 18,
+        "y": 16
+      },
+      "id": 4,
+      "options": {
+        "folderUID": "bezmo9iiblxj4c",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "metrics"
+        ]
+      },
+      "pluginVersion": "11.0.0",
+      "title": "Development Metrics",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 0,
+        "y": 26
+      },
+      "id": 6,
+      "options": {
+        "folderUID": "eezmo8sgz7mdca",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "logs"
+        ]
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Production Logs",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 6,
+        "y": 26
+      },
+      "id": 13,
+      "options": {
+        "folderUID": "bezm4676312wwa",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "logs"
+        ]
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Mirror Logs",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 12,
+        "y": 26
+      },
+      "id": 7,
+      "options": {
+        "folderUID": "dezm450vpewaoa",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "logs"
+        ]
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Staging Logs",
+      "type": "dashlist"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 6,
+        "x": 18,
+        "y": 26
+      },
+      "id": 9,
+      "options": {
+        "folderUID": "bezmo9iiblxj4c",
+        "includeVars": false,
+        "keepTime": false,
+        "maxItems": 10,
+        "query": "",
+        "showFolderNames": true,
+        "showHeadings": true,
+        "showRecentlyViewed": false,
+        "showSearch": true,
+        "showStarred": false,
+        "tags": [
+          "logs"
+        ]
+      },
+      "pluginVersion": "12.1.1",
+      "title": "Development Logs",
+      "type": "dashlist"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timeRangeUpdatedDuringEditOrView": false,
+  "timepicker": {
+    "hidden": true,
+    "refresh_intervals": [
+      "5s"
+    ]
+  },
+  "timezone": "browser",
+  "title": "HOME",
+  "uid": "1bc60ff2-925a-4403-8dd6-9451ab559565",
+  "version": 1,
+  "weekStart": ""
+}
