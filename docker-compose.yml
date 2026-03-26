@@ -51,7 +51,7 @@ services:
       - "4317"
       - "4318"
     ports:
-      - "4318:4318"
+      - "4319:4318"
     volumes:
       - ./config/tempo/tempo-config.yaml:/etc/tempo/config.yaml:ro
       - tempo-data:/var/tempo
