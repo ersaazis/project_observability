@@ -1,6 +1,7 @@
 # Ignore actual environment files
 *.env
 .env.*
+!.env.*.example
 
 # Ignore sensitive config data
 config/nginx/certs/
