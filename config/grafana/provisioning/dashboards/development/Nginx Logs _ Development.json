@@ -72,8 +72,7 @@
   "refresh": "30s",
   "schemaVersion": 41,
   "tags": [
-    "logs",
-    "metrics"
+    "logs"
   ],
   "templating": {
     "list": [

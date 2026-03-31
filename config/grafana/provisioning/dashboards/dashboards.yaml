@@ -4,7 +4,6 @@ providers:
   - name: 'Development'
     orgId: 1
     folder: 'Development'
-    folderUid: 'bezmo9iiblxj4c'
     type: file
     disableDeletion: false
     editable: true
@@ -15,7 +14,6 @@ providers:
   - name: 'Staging'
     orgId: 1
     folder: 'Staging'
-    folderUid: 'dezm450vpewaoa'
     type: file
     disableDeletion: false
     editable: true
@@ -26,7 +24,6 @@ providers:
   - name: 'Production'
     orgId: 1
     folder: 'Production'
-    folderUid: 'eezmo8sgz7mdca'
     type: file
     disableDeletion: false
     editable: true
@@ -37,7 +34,6 @@ providers:
   - name: 'Mirror'
     orgId: 1
     folder: 'Mirror'
-    folderUid: 'bezm4676312wwa'
     type: file
     disableDeletion: false
     editable: true
