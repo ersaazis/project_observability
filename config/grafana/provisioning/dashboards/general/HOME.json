@@ -466,18 +466,17 @@
       },
       "id": 2,
       "options": {
-        "folder": "Production",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "metrics"
+          "metrics",
+          "production"
         ]
       },
       "pluginVersion": "11.0.0",
@@ -493,18 +492,17 @@
       },
       "id": 3,
       "options": {
-        "folder": "Mirror",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "metrics"
+          "metrics",
+          "mirror"
         ]
       },
       "pluginVersion": "11.0.0",
@@ -520,18 +518,17 @@
       },
       "id": 5,
       "options": {
-        "folder": "Staging",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "metrics"
+          "metrics",
+          "staging"
         ]
       },
       "pluginVersion": "11.0.0",
@@ -547,18 +544,17 @@
       },
       "id": 4,
       "options": {
-        "folder": "Development",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "metrics"
+          "metrics",
+          "development"
         ]
       },
       "pluginVersion": "11.0.0",
@@ -574,18 +570,17 @@
       },
       "id": 6,
       "options": {
-        "folder": "Production",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "logs"
+          "logs",
+          "production"
         ]
       },
       "pluginVersion": "12.1.1",
@@ -601,18 +596,17 @@
       },
       "id": 13,
       "options": {
-        "folder": "Mirror",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "logs"
+          "logs",
+          "mirror"
         ]
       },
       "pluginVersion": "12.1.1",
@@ -628,18 +622,17 @@
       },
       "id": 7,
       "options": {
-        "folder": "Staging",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "logs"
+          "logs",
+          "staging"
         ]
       },
       "pluginVersion": "12.1.1",
@@ -655,18 +648,17 @@
       },
       "id": 9,
       "options": {
-        "folder": "Development",
         "includeVars": false,
         "keepTime": false,
         "maxItems": 10,
         "query": "",
-        "showFolderNames": true,
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
         "showStarred": false,
         "tags": [
-          "logs"
+          "logs",
+          "development"
         ]
       },
       "pluginVersion": "12.1.1",
@@ -675,7 +667,9 @@
     }
   ],
   "schemaVersion": 39,
-  "tags": [],
+  "tags": [
+    "general"
+  ],
   "templating": {
     "list": []
   },

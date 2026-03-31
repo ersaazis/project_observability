@@ -1378,7 +1378,8 @@
   "refresh": "1m",
   "schemaVersion": 41,
   "tags": [
-    "metrics"
+    "metrics",
+    "development"
   ],
   "templating": {
     "list": [

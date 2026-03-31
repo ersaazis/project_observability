@@ -71,7 +71,8 @@
   "refresh": "30s",
   "schemaVersion": 41,
   "tags": [
-    "logs"
+    "logs",
+    "mirror"
   ],
   "templating": {
     "list": [

@@ -2656,7 +2656,8 @@
   "preload": false,
   "schemaVersion": 41,
   "tags": [
-    "metrics"
+    "metrics",
+    "mirror"
   ],
   "templating": {
     "list": [

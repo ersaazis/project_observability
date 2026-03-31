@@ -1595,7 +1595,8 @@
   "refresh": "",
   "schemaVersion": 41,
   "tags": [
-    "metrics"
+    "metrics",
+    "production"
   ],
   "templating": {
     "list": [

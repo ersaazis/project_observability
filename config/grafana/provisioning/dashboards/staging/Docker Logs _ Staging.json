@@ -72,7 +72,8 @@
   "refresh": "30s",
   "schemaVersion": 41,
   "tags": [
-    "logs"
+    "logs",
+    "staging"
   ],
   "templating": {
     "list": [
