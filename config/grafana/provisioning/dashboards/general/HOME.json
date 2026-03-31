@@ -37,7 +37,7 @@
         "groupMode": "default",
         "maxItems": 19,
         "showInactiveAlerts": false,
-        "sortOrder": 1,
+        "sortOrder": 3,
         "stateFilter": {
           "error": true,
           "firing": true,
@@ -67,7 +67,7 @@
         "groupMode": "default",
         "maxItems": 19,
         "showInactiveAlerts": false,
-        "sortOrder": 1,
+        "sortOrder": 3,
         "stateFilter": {
           "error": true,
           "firing": true,
@@ -97,7 +97,7 @@
         "groupMode": "default",
         "maxItems": 19,
         "showInactiveAlerts": false,
-        "sortOrder": 1,
+        "sortOrder": 3,
         "stateFilter": {
           "error": true,
           "firing": true,
@@ -127,7 +127,7 @@
         "groupMode": "default",
         "maxItems": 19,
         "showInactiveAlerts": false,
-        "sortOrder": 1,
+        "sortOrder": 3,
         "stateFilter": {
           "error": true,
           "firing": true,
