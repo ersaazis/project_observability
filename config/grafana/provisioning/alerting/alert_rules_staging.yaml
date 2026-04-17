@@ -26,8 +26,8 @@ groups:
         from: 600
         to: 0
       model:
-        expr: (node_memory_MemTotal_bytes{env="staging"} - node_memory_MemAvailable_bytes{env="staging"})
-          / node_memory_MemTotal_bytes{env="staging"} * 100 > 85
+        expr: (avg by (instance, env) (node_memory_MemTotal_bytes{env="staging"} - node_memory_MemAvailable_bytes{env="staging"})
+          / avg by (instance, env) (node_memory_MemTotal_bytes{env="staging"})) * 100 > 85
         refId: A
   - uid: Stg_highdiskusage
     title: HighDiskUsage
@@ -49,8 +49,8 @@ groups:
         from: 600
         to: 0
       model:
-        expr: (node_filesystem_avail_bytes{env="staging", fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"}
-          / node_filesystem_size_bytes{env="staging", fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"})
+        expr: (avg by (instance, env, mountpoint) (node_filesystem_avail_bytes{env="staging", fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"})
+          / avg by (instance, env, mountpoint) (node_filesystem_size_bytes{env="staging", fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"}))
           * 100 < 15
         refId: A
   - uid: Stg_highdiskiowait
@@ -73,7 +73,7 @@ groups:
         from: 600
         to: 0
       model:
-        expr: rate(node_cpu_seconds_total{env="staging", mode="iowait"}[5m]) > 0.1
+        expr: avg by (instance, env) (rate(node_cpu_seconds_total{env="staging", mode="iowait"}[5m])) > 0.1
         refId: A
   - uid: Stg_highsystemload
     title: HighSystemLoad
@@ -95,8 +95,8 @@ groups:
         from: 600
         to: 0
       model:
-        expr: node_load1{env="staging"} > count without (cpu, mode) (node_cpu_seconds_total{env="staging",
-          mode="idle"})
+        expr: avg by (instance, env) (node_load1{env="staging"}) > avg by (instance, env) (count without (cpu, mode) (node_cpu_seconds_total{env="staging",
+          mode="idle"}))
         refId: A
   - uid: Stg_networkerrors
     title: NetworkErrors
@@ -118,9 +118,10 @@ groups:
         from: 600
         to: 0
       model:
-        expr: rate(node_network_receive_drop_total{env="staging"}[5m]) > 0 or rate(node_network_transmit_drop_total{env="staging"}[5m])
-          > 0 or rate(node_network_receive_errs_total{env="staging"}[5m]) > 0 or rate(node_network_transmit_errs_total{env="staging"}[5m])
-          > 0
+        expr: max by (instance, env, device) (rate(node_network_receive_drop_total{env="staging"}[5m])) > 0 
+          or max by (instance, env, device) (rate(node_network_transmit_drop_total{env="staging"}[5m])) > 0 
+          or max by (instance, env, device) (rate(node_network_receive_errs_total{env="staging"}[5m])) > 0 
+          or max by (instance, env, device) (rate(node_network_transmit_errs_total{env="staging"}[5m])) > 0
         refId: A
   - uid: Stg_hostdown
     title: HostDown
@@ -419,7 +420,7 @@ groups:
         from: 600
         to: 0
       model:
-        expr: (node_filesystem_avail_bytes{env="staging", mountpoint=~".*/data.*|.*mysql.*"}
-          / node_filesystem_size_bytes{env="staging", mountpoint=~".*/data.*|.*mysql.*"})
+        expr: (avg by (instance, env, mountpoint) (node_filesystem_avail_bytes{env="staging", mountpoint=~".*/data.*|.*mysql.*"})
+          / avg by (instance, env, mountpoint) (node_filesystem_size_bytes{env="staging", mountpoint=~".*/data.*|.*mysql.*"}))
           * 100 < 20
         refId: A
