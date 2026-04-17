@@ -108,7 +108,7 @@ contactPoints:
 policies:
   - orgId: 1
     receiver: 'Telegram Server Production' # Default receiver
-    group_by: ['alertname', 'domain', 'env']
+    group_by: ['alertname', 'domain', 'env', 'instance']
     routes:
       # DEVELOPMENT ROUTES
       - receiver: 'Telegram Server Development'

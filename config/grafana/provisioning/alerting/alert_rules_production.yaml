@@ -203,7 +203,7 @@ groups:
       domain: application
       env: production
     annotations:
-      summary: High Nginx 5xx Error Rate
+      summary: 'High Nginx 5xx Error Rate: {{ $labels.instance }}'
       description: More than 5% of requests returned 5xx status codes.
     noDataState: OK
     executionErrorState: Error
@@ -214,8 +214,8 @@ groups:
         from: 600
         to: 0
       model:
-        expr: sum(rate(nginx_http_requests_total{env="production", status=~"5.."}[5m]))
-          / sum(rate(nginx_http_requests_total{env="production"}[5m])) * 100 > 5
+        expr: (sum by (instance) (rate(nginx_http_requests_total{env="production", status=~"5.."}[5m]))
+          / sum by (instance) (rate(nginx_http_requests_total{env="production"}[5m]))) * 100 > 5
         refId: A
   - uid: Prod_tracingerror500
     title: TracingError500
@@ -226,7 +226,7 @@ groups:
       domain: application
       env: production
     annotations:
-      summary: High Tracing Error Rate
+      summary: 'High Tracing Error Rate: {{ $labels.instance }}'
       description: More than 5% of traced requests have errors.
     noDataState: OK
     executionErrorState: Error
@@ -237,8 +237,8 @@ groups:
         from: 600
         to: 0
       model:
-        expr: sum(rate(traces_spanmetrics_calls_total{env="production", status_code="STATUS_CODE_ERROR"}[5m]))
-          / sum(rate(traces_spanmetrics_calls_total{env="production"}[5m])) * 100
+        expr: (sum by (instance) (rate(traces_spanmetrics_calls_total{env="production", status_code="STATUS_CODE_ERROR"}[5m]))
+          / sum by (instance) (rate(traces_spanmetrics_calls_total{env="production"}[5m]))) * 100
           > 5
         refId: A
   - uid: Prod_highresponsetime
@@ -294,7 +294,7 @@ groups:
       domain: application
       env: production
     annotations:
-      summary: App/Traefik Container Down
+      summary: 'App/Traefik Container Down: {{ $labels.instance }}'
       description: Container has not been seen for more than 60 seconds.
     noDataState: OK
     executionErrorState: Error
@@ -322,7 +322,7 @@ groups:
       domain: database
       env: production
     annotations:
-      summary: Sudden DB Connections Spike/Drop
+      summary: 'Sudden DB Connections Spike/Drop: {{ $labels.instance }}'
       description: Active connections dropped or spiked drastically.
     noDataState: OK
     executionErrorState: Error
@@ -344,7 +344,7 @@ groups:
       domain: database
       env: production
     annotations:
-      summary: Database Down
+      summary: 'Database Down: {{ $labels.instance }}'
       description: Database exporter cannot connect or is down.
     noDataState: OK
     executionErrorState: Error
@@ -366,7 +366,7 @@ groups:
       domain: database
       env: production
     annotations:
-      summary: High DB Query Latency
+      summary: 'High DB Query Latency: {{ $labels.instance }}'
       description: Average query latency is unusually high.
     noDataState: OK
     executionErrorState: Error
@@ -388,7 +388,7 @@ groups:
       domain: database
       env: production
     annotations:
-      summary: Deadlocks Detected
+      summary: 'Deadlocks Detected: {{ $labels.instance }}'
       description: Database deadlocks detected.
     noDataState: OK
     executionErrorState: Error
@@ -410,7 +410,7 @@ groups:
       domain: database
       env: production
     annotations:
-      summary: DB Disk Almost Full
+      summary: 'DB Disk Almost Full: {{ $labels.instance }}'
       description: Database disk space is below 20%.
     noDataState: OK
     executionErrorState: Error
