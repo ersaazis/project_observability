@@ -6,13 +6,10 @@ distributor:
   receivers:
     otlp:
       protocols:
-        grpc:
-        http:
+        grpc: {}
+        http: {}
 
 ingester:
-  lifecycler:
-    ring:
-      replication_factor: 1
   max_block_duration: 5m
 
 compactor:
