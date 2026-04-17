@@ -45,7 +45,7 @@ services:
   tempo:
     image: grafana/tempo:latest
     container_name: tempo
-    command: [ "-config.file=/etc/tempo/config.yaml" ]
+    command: [ "-config.file=/etc/tempo/config.yaml", "-target=all" ]
     expose:
       - "3200"
       - "4317"
